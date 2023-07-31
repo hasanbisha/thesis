@@ -1,34 +1,41 @@
 import { useEffect, useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
-import { selectionColumn } from "../commonColumns/selectionColumn";
+import { selectionColumn } from "./commonColumns/selectionColumn";
 
-export const useNewTable = ({
-	data,
-	totalItems,
-	columns: baseColumns,
-	loading,
+const emptyData = [];
+
+export const useTable = ({
+	data: _data,
+	columns,
+	isLoading,
+	meta,
 }) => {
-	const columns = ;
+	const { data, totalItems } = _data
+		|| { data: emptyData, totalItems: 0 };
 
 	const [pageCount, setPageCount] = useState(
-		Math.ceil(totalItems / tableInitialState.pagination.pageSize),
+		Math.ceil(totalItems / 10),
 	);
 
 	const table = useReactTable({
-		initialState: tableInitialState,
+		initialState: {
+			pagination: {
+				pageSize: 10
+			},
+		},
 		meta: useMemo(() => ({
 			...meta,
 			totalItems,
-			loading,
-		}), [meta, totalItems, loading]),
+			isLoading,
+		}), [meta, totalItems, isLoading]),
 		defaultColumn: useMemo(() => ({
 			enableColumnFilter: false,
 			enableHiding: true,
 			filterType: "text",
 		}), []),
-        columns: useMemo(() => {
-            return [selectionColumn, ...columns];
-        }, [columns]),
+		columns: useMemo(() => {
+			return [selectionColumn, ...columns];
+		}, [columns]),
 		data,
 
 		pageCount,
