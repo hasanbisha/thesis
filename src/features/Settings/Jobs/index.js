@@ -1,6 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Table from "../../../components/Table";
 import Button from "../../../components/Button";
 import Filters from "../../../components/Filters";
@@ -64,6 +64,10 @@ function Jobs() {
 	const { data, isLoading, mutate } = useSWR({
 		url: "/jobs",
 		params: table.getState(),
+	});
+	const [state, setState] = useState({
+		pagination: {},
+		columnFilters: [{}],
 	});
 	const table = useTable({ data, columns, isLoading });
 
