@@ -10,8 +10,7 @@ export const useTable = ({
 	isLoading,
 	meta,
 }) => {
-	const { data, totalItems } = _data
-		|| { data: emptyData, totalItems: 0 };
+	const [data, totalItems] = _data || [emptyData, 0];
 
 	const [pageCount, setPageCount] = useState(
 		Math.ceil(totalItems / 10),
@@ -19,6 +18,7 @@ export const useTable = ({
 
 	const table = useReactTable({
 		initialState: {
+			columnFilters: [{}],
 			pagination: {
 				pageSize: 10
 			},

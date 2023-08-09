@@ -2,15 +2,13 @@ import { Suspense, useMemo } from "react";
 import { SWRConfig } from "swr";
 import AppLoader from "./components/Loaders/AppLoader";
 import Routing from "./routing";
+import { useApi } from "./utils/api";
 
 function App() {
+    const { authGet } = useApi();
     const swrConfig = useMemo(() => ({
-        fetcher: async (config) => {
-            const response = await fetch({
-                method: "GET",
-                ...config,
-            });
-            return response.json();
+        fetcher: async ({ url, ...config }) => {
+            return authGet(url, config);
         },
         revalidateOnFocus: false,
         shouldRetryOnError: false,

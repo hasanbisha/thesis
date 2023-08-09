@@ -69,7 +69,7 @@ function Table({ table }) {
                             return (
                                 <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
                                     {row.getVisibleCells().map((cell) => (
-                                        <td key={cell.id} className="px-6 py-4" colSpan="999">
+                                        <td key={cell.id} className="px-6 py-4">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext(),
@@ -83,13 +83,7 @@ function Table({ table }) {
                 </tbody>
             </table>
 
-            <Pagination
-                page={table.getState().pagination.pageIndex}
-                pageCount={table.getPageCount()}
-                perPage={table.getState().pagination.pageSize}
-                gotoPage={table.setPageIndex}
-                setPerPage={table.setPageSize}
-            />
+            <Pagination table={table} />
         </div>
     );
 }
