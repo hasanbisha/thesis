@@ -8,44 +8,6 @@ const apiErrorHandler = (err) => {
 
 	const errorStatusCode = err.response?.status;
 	switch (errorStatusCode) {
-		case 400: {
-			const error = err.response?.data;
-			if (error?.field) {
-				return { [error.field]: [error.message] };
-			} else {
-				return error?.message;
-			}
-		}
-		case 409: {
-			if (err.response?.data) {
-				return {
-					[err.response.data.field]: [err.response.data.message],
-				};
-			} else {
-				return err.response?.data.message;
-			}
-		}
-		case 422: {
-			if (err.response?.data.errors) {
-				return err.response?.data.errors.reduce(
-					(errors, fieldError) => {
-						if (errors[fieldError.field]) {
-							errors[fieldError.field].push(
-								...Object.values(fieldError.constraints),
-							);
-						} else {
-							errors[fieldError.field] = Object.values(
-								fieldError.constraints,
-							);
-						}
-						return errors;
-					},
-					{},
-				);
-			} else {
-				return err.response?.data.message;
-			}
-		}
 		case 500: {
 			return "Something went wrong";
 		}

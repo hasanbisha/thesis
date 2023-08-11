@@ -12,7 +12,7 @@ import Form from "./Form";
 import useApi from "../../../utils/api";
 import { toast } from "react-toastify";
 
-function Jobs() {
+function Locations() {
 	const { visible, selected, open, close } = useVisible();
 
 	const [remove, RemoveModal] = useRemoveModal();
@@ -28,15 +28,13 @@ function Jobs() {
 				enableColumnFilter: true,
 				header: "Description"
 			}),
-			columnHelper.accessor("rate", {
+			columnHelper.accessor("country", {
 				enableColumnFilter: true,
-				header: "Rate"
+				header: "Country"
 			}),
-			columnHelper.accessor("startTime", {
-				header: "Start time"
-			}),
-			columnHelper.accessor("endTime", {
-				header: "End time"
+			columnHelper.accessor("city", {
+				enableColumnFilter: true,
+				header: "City"
 			}),
 			columnHelper.group({
 				id: "actions",
@@ -65,7 +63,7 @@ function Jobs() {
 	const [state, onStateChange] = useTableState();
 	const params = useTableStateQueryParams(state);
 	const { data, isLoading, mutate } = useSWR({
-		url: "/jobs",
+		url: "/locations",
 		params,
 	});
 	const table = useTable({
@@ -79,10 +77,10 @@ function Jobs() {
 	const { authPost, authPatch, authDelete } = useApi();
 	const create = useCallback(async (data, { setErrors }) => {
 		try {
-			await authPost("/jobs", { data });
+			await authPost("/locations", { data });
 			close();
 			mutate();
-			toast.success("Job added successfully");
+			toast.success("Location added successfully");
 		} catch (err) {
 			if (Array.isArray(err)) {
 				const errors = err.reduce((total, error) => {
@@ -95,10 +93,10 @@ function Jobs() {
 	}, [mutate, authPost, close]);
 	const update = useCallback(async (id, data, { setErrors }) => {
 		try {
-			await authPatch(`/jobs/${id}`, { data });
+			await authPatch(`/locations/${id}`, { data });
 			close();
 			mutate();
-			toast.success("Job updated successfully");
+			toast.success("Location updated successfully");
 		} catch (err) {
 			if (Array.isArray(err)) {
 				const errors = err.reduce((total, error) => {
@@ -110,9 +108,9 @@ function Jobs() {
 		}
 	}, [mutate, authPatch, close]);
 	const onConfirmRemove = useCallback(async (id) => {
-		await authDelete(`/jobs/${id}`);
+		await authDelete(`/locations/${id}`);
 		mutate();
-		toast.success("Job removed successfully");
+		toast.success("Location removed successfully");
 	}, [authDelete, mutate])
 	const onSubmit = useMemo(() => {
 		if (selected) {
@@ -145,4 +143,4 @@ function Jobs() {
 	);
 }
 
-export default Jobs;
+export default Locations;

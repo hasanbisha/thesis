@@ -4,11 +4,43 @@ import { selectionColumn } from "./commonColumns/selectionColumn";
 
 const emptyData = [];
 
+export const useTableStateQueryParams = (state) => {
+	return useMemo(() => {
+		const params = {
+			page: state.pagination.pageIndex,
+			pageSize: state.pagination.pageSize,
+		};
+		params.filters = state.columnFilters.reduce((total, filter) => {
+			total[filter.id] = filter.value;
+			return total;
+		}, {});
+		const [sort] = state.sorting;
+		if (sort) {
+			params.sortBy = sort.id;
+			params.orderBy = sort.desc ? "DESC" : "ASC";
+		}
+		return params;
+	}, [state]);
+}
+
+export const useTableState = () => {
+	return useState({
+		pagination: {
+			pageIndex: 0,
+			pageSize: 10,
+		},
+		columnFilters: [{}],
+		sorting: [],
+	});
+}
+
 export const useTable = ({
 	data: _data,
 	columns,
 	isLoading,
 	meta,
+	state: _state,
+	onStateChange,
 }) => {
 	const [data, totalItems] = _data || [emptyData, 0];
 
@@ -40,6 +72,9 @@ export const useTable = ({
 
 		pageCount,
 		getCoreRowModel: getCoreRowModel(),
+
+		state: _state,
+		onStateChange,
 
 		manualPagination: true,
 		manualFiltering: true,

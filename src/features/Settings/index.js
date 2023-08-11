@@ -3,13 +3,14 @@ import Header from "../../components/Layout/Header";
 
 const settings = [
 	{ name: "Jobs", url: "jobs" },
+	{ name: "Locations", url: "locations" },
 ];
 
 function Settings() {
 	return (
 		<div>
 			<Header title="Settings">
-				<ul>
+				<ul className="inline-flex">
 					{settings.map(({ name, url }) => (
 						<li key={url}>
 							<Link className="hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium" to={url}>

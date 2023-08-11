@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useMemo, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { useVisible } from '../../../utils/hooks/useVisible'
-import Button from '../../../components/Button'
+import { useVisible } from '../../utils/hooks/useVisible'
+import Button from '../Button'
 
 export const useRemoveModal = () => {
 	const { visible, open, close, selected } = useVisible();

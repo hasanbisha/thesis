@@ -12,6 +12,7 @@ import TimeSheetHome from "../../features/TimeSheet/Home";
 import TimeSheetTeam from "../../features/TimeSheet/Team";
 import Settings from "../../features/Settings";
 import Jobs from "../../features/Settings/Jobs";
+import Locations from "../../features/Settings/Locations";
 
 const routes = [
 	{
@@ -50,6 +51,7 @@ const routes = [
 				element: <Settings />,
 				children: [
 					{ path: "jobs", element: <Jobs /> },
+					{ path: "locations", element: <Locations /> },
 				],
 			},
 		],

@@ -67,8 +67,8 @@ export default function DynamicForm({ config, close, ...props }) {
                             <Fragment>
                                 {getInput(item, field)}
 
-                                {meta.touched && meta.error && (
-                                    <div className="text-sm	text-red-600">{meta.error}</div>
+                                {meta.error && (
+                                    <div className="text-sm text-red-600">{meta.error}</div>
                                 )}
                             </Fragment>
                         )}

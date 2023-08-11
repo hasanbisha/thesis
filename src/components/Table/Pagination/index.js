@@ -43,7 +43,6 @@ export default function Pagination({ table }) {
           >
             <ChevronRightIcon className="h-5 w-5" />
           </button>
-
         </nav>
       </div>
     </div>

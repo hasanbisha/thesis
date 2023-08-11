@@ -5,23 +5,19 @@ import * as Yup from "yup"
 const validationSchema = Yup.object().shape({
 	code: Yup.string().required('Required'),
 	description: Yup.string().required('Required'),
-	rate: Yup.number().required('Required'),
-	startTime: Yup.string().required('Required'),
-	endTime: Yup.string().required('Required'),
+	country: Yup.string().required('Required'),
+	city: Yup.string().required('Required'),
 });
 
 const config = [
 	{ name: "code", label: "Code" },
 	{ name: "description", label: "Description" },
-	{ name: "rate", label: "Rate", type: "number" },
-	[
-		{ name: "startTime", label: "Start time", type: "time" },
-		{ name: "endTime", label: "End time", type: "time" },
-	],
+	{ name: "country", label: "Country" },
+	{ name: "city", label: "City" },
 ];
 
-export default function JobForm({ visible, close, selected, onSubmit }) {
-	const title = selected ? "Edit job" : "Add job";
+export default function LocationForm({ visible, close, selected, onSubmit }) {
+	const title = selected ? "Edit location" : "Add location";
 	return (
 		<Drawer title={title} visible={visible} close={close}>
 			<DynamicForm
