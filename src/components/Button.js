@@ -5,8 +5,10 @@ function Button({ className, color = "primary", mode = "primary", ...props }) {
     const baseClassName = "inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent px-3 py-1.5 text-base text-sm font-medium shadow-sm disabled:cursor-not-allowed";
     const colorClassName = useMemo(() => {
         switch (color) {
+            default:
             case "primary": {
                 switch (mode) {
+                    default:
                     case "primary":
                         return "bg-indigo-600 hover:bg-indigo-700 text-white";
                     case "secondary":
@@ -17,6 +19,7 @@ function Button({ className, color = "primary", mode = "primary", ...props }) {
             }
             case "danger": {
                 switch (mode) {
+                    default:
                     case "primary":
                         return "bg-red-600 hover:bg-red-700 text-white";
                     case "secondary":
@@ -27,6 +30,7 @@ function Button({ className, color = "primary", mode = "primary", ...props }) {
             }
             case "plain": {
                 switch (mode) {
+                    default:
                     case "primary":
                         return "bg-gray-800 hover:bg-gray-900 text-white";
                     case "secondary":

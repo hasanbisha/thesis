@@ -7,7 +7,7 @@ function Checkbox({ indeterminate, ...props }) {
         if (typeof indeterminate === 'boolean') {
             ref.current.indeterminate = !props.checked && indeterminate
         }
-    }, [ref, indeterminate])
+    }, [ref, indeterminate, props.checked])
 
     return (
         <input

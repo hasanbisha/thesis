@@ -3,7 +3,6 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { useCallback, useMemo } from "react";
 import Table from "../../../components/Table";
 import Button from "../../../components/Button";
-import Filters from "../../../components/Filters";
 import { useRemoveModal } from "../../../components/DeleteModal";
 import { useVisible } from "../../../utils/hooks/useVisible";
 import { useTable, useTableState, useTableStateQueryParams } from "../../../components/Table/hook";
@@ -39,6 +38,7 @@ function Jobs() {
 				header: "End time"
 			}),
 			columnHelper.group({
+				enableHiding: false,
 				id: "actions",
 				cell: (info) => {
 					const { original } = info.row;

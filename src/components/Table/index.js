@@ -10,7 +10,7 @@ function Table({ table }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
-        <div className="shadow-md rounded-lg bg-white">
+        <div className="shadow-md rounded-lg bg-white z-10">
             <div className="flex justify-between items-start py-2 px-4">
                 <Filters table={table}/>
 
