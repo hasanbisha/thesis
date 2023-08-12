@@ -5,7 +5,6 @@ import LogIn from "../../features/LogIn";
 import LogOut from "../../features/LogOut";
 import Home from "../../features/Home";
 import Users from "../../features/Users";
-import AddUser from "../../features/Users/Add";
 import ClockIn from "../../features/ClockIn";
 import TimeSheet from "../../features/TimeSheet";
 import TimeSheetHome from "../../features/TimeSheet/Home";
@@ -28,13 +27,7 @@ const routes = [
 		element: <Authentication />,
 		children: [
 			{ index: true, element: <Home /> },
-			{
-				path: "users",
-				children: [
-					{ index: true, element: <Users /> },
-					{ path: "add", element: <AddUser /> },
-				],
-			},
+			{ path: "users", element: <Users /> },
 			{ path: "clock-in", element: <ClockIn /> },
 			{
 				path: "time-sheet",

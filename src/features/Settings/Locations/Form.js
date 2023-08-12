@@ -23,7 +23,12 @@ export default function LocationForm({ visible, close, selected, onSubmit }) {
 			<DynamicForm
 				config={config}
 				close={close}
-				initialValues={selected || {}}
+				initialValues={selected || {
+					code: "",
+					description: "",
+					country: "",
+					city: "",
+				}}
 				onSubmit={onSubmit}
 				validationSchema={validationSchema}
 			/>

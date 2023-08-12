@@ -1,14 +1,27 @@
 import { Field, Form, Formik } from "formik";
 import { Fragment, useCallback } from "react";
 import Input from "../Inputs";
+import Password from "../Inputs/Password";
 import ResourceSelect from "../Inputs/ResourceSelect";
+import Select from "../Inputs/Select";
 
 export default function DynamicForm({ config, close, ...props }) {
     const getInput = useCallback((item, props) => {
         switch (item.type) {
+            case "password": {
+                const { name, inputProps } = item;
+                return (
+                    <Password
+                        id={name}
+                        name={name}
+                        autoComplete={name}
+                        {...props}
+                        {...inputProps}
+                    />
+                );
+            }
             case "text":
             case "email":
-            case "password":
             case "time":
             default: {
                 const { name, inputProps } = item;
@@ -23,14 +36,27 @@ export default function DynamicForm({ config, close, ...props }) {
                     />
                 );
             }
+            case "select": {
+                return (
+                    <Select
+                        {...props}
+                        {...item}
+                        onChange={(value) => {
+                            const event = { target: { name: item.name, value } };
+                            props.onChange(event);
+                        }}
+                    />
+                );
+            }
             case "resource-select": {
-                const { name, multiple, url } = item;
                 return (
                     <ResourceSelect
-                        name={name}
-                        multiple={multiple || false}
-                        url={url}
                         {...props}
+                        {...item}
+                        onChange={(value) => {
+                            const event = { target: { name: item.name, value } };
+                            props.onChange(event);
+                        }}
                     />
                 );
             }

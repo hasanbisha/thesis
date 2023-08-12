@@ -12,9 +12,9 @@ export default function Select({ value, onChange, renderOption, options, loading
                     <div className="relative">
                         <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6 h-9">
                             <span className="flex items-center">
-                                <span className="ml-3 block truncate">
+                                <span className="block truncate">
                                     {multiple
-                                        ? value.map((item) => renderOption(item))
+                                        ? value.map((item) => renderOption(item)).join(", ")
                                         : value && renderOption(value)}
                                 </span>
                             </span>

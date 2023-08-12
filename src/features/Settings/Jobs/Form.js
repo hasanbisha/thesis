@@ -27,7 +27,13 @@ export default function JobForm({ visible, close, selected, onSubmit }) {
 			<DynamicForm
 				config={config}
 				close={close}
-				initialValues={selected || {}}
+				initialValues={selected || {
+					code: "",
+					description: "",
+					rate: 0,
+					startTime: "",
+					endTime: "",
+				}}
 				onSubmit={onSubmit}
 				validationSchema={validationSchema}
 			/>

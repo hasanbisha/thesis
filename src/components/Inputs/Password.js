@@ -15,7 +15,7 @@ export default function PasswordInput({ className, ...props }) {
 
             <button
                 type="button"
-                className="h-full flex items-center px-3 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-tr-md rounded-br-md"
+                className="h-100 flex items-center px-3 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 rounded-tr-md rounded-br-md"
                 onClick={toggle}
             >
                 {visible ? (

@@ -6,7 +6,7 @@ function ResourceSelect({ url, value, onChange, renderOption, multiple }) {
 
     return (
         <Select
-            options={data?.data}
+            options={data?.[0]}
             loading={isLoading}
             value={value}
             onChange={onChange}
