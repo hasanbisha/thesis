@@ -5,8 +5,9 @@ import AppLoader from "./components/Loaders/AppLoader";
 import Routing from "./routing";
 import { useApi } from "./utils/api";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthenticationProvider } from "./features/Authentication";
 
-function App() {
+function SWRConfigProvider({ children }) {
     const { authGet } = useApi();
     const swrConfig = useMemo(() => ({
         fetcher: async ({ url, ...config }) => {
@@ -17,10 +18,21 @@ function App() {
     }), [authGet]);
 
     return (
+        <SWRConfig value={swrConfig}>
+            {children}
+        </SWRConfig>
+    );
+}
+
+function App() {
+
+    return (
         <Suspense fallback={AppLoader}>
-            <SWRConfig value={swrConfig}>
-                <Routing />
-            </SWRConfig>
+            <AuthenticationProvider>
+                <SWRConfigProvider>
+                    <Routing />
+                </SWRConfigProvider>
+            </AuthenticationProvider>
 
             <ToastContainer
                 position="bottom-right"

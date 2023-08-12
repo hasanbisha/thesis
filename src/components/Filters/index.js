@@ -2,7 +2,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { startCase } from "lodash";
 import { useCallback, useMemo } from "react";
 import { MinusIcon, PlusIcon, AdjustmentsHorizontalIcon } from "@heroicons/react/20/solid";
-import Input from "../Inputs/Index";
+import Input from "../Inputs";
 import Select from "../Inputs/Select";
 import Button from "../Button";
 import { useVisible } from "../../utils/hooks/useVisible";

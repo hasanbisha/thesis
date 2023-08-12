@@ -2,7 +2,7 @@ import Loading from "./Loading";
 
 function AppLoader() {
 	return (
-		<div className="h-100 flex justify-center items-center">
+		<div className="h-full flex justify-center items-center">
 			<Loading />
 		</div>
 	);

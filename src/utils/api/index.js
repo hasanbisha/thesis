@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import axios, { isCancel } from "axios";
+import { useAuthentication } from "../../features/Authentication";
 
 const apiErrorHandler = (err) => {
 	if (!axios.isAxiosError(err)) {
@@ -69,7 +70,7 @@ const useNonAuthApi = () => {
 
 const useApi = () => {
 	const { call } = useNonAuthApi();
-	const token = "";
+	const { token } = useAuthentication();
 
 	const authCall = useCallback(
 		async function (config) {

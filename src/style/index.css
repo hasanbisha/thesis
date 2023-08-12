@@ -20,6 +20,6 @@ html {
   @apply h-full bg-gray-100;
 }
 
-body {
+body, #root {
   @apply h-full;
 }

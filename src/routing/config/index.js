@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import NonAuthLayout from "../../components/NonAuthLayout";
 import Authentication from "../Authentication";
 
 import LogIn from "../../features/LogIn";
+import LogOut from "../../features/LogOut";
 import Home from "../../features/Home";
 import Users from "../../features/Users";
 import AddUser from "../../features/Users/Add";
@@ -16,14 +16,12 @@ import Locations from "../../features/Settings/Locations";
 
 const routes = [
 	{
-		path: "/",
-		element: <NonAuthLayout />,
-		children: [
-			{
-				path: "login",
-				element: <LogIn />,
-			},
-		],
+		path: "/login",
+		element: <LogIn />,
+	},
+	{
+		path: "/logout",
+		element: <LogOut />,
 	},
 	{
 		path: "/",

@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import { Fragment, useCallback } from "react";
-import Input from "../Inputs/Index";
+import Input from "../Inputs";
 import ResourceSelect from "../Inputs/ResourceSelect";
 
 export default function DynamicForm({ config, close, ...props }) {
