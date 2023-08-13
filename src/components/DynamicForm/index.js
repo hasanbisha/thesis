@@ -14,7 +14,6 @@ export default function DynamicForm({ config, close, ...props }) {
                     <Password
                         id={name}
                         name={name}
-                        autoComplete={name}
                         {...props}
                         {...inputProps}
                     />
@@ -29,7 +28,6 @@ export default function DynamicForm({ config, close, ...props }) {
                     <Input
                         id={name}
                         name={name}
-                        autoComplete={name}
                         type={item.type}
                         {...props}
                         {...inputProps}

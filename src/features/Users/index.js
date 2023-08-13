@@ -1,3 +1,4 @@
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
@@ -8,6 +9,8 @@ import Header from "../../components/Layout/Header";
 import Table from "../../components/Table";
 import { useTable, useTableState, useTableStateQueryParams } from "../../components/Table/hook";
 import useApi from "../../utils/api";
+import { renderSetting } from "../../utils/helpers/settings";
+import { ROLE } from "../../utils/helpers/user";
 import { useVisible } from "../../utils/hooks/useVisible";
 import Form from "./Form";
 
@@ -16,30 +19,122 @@ function Users() {
 
 	const [remove, RemoveModal] = useRemoveModal();
 
-    const columns = useMemo(() => {
-        const columnHelper = createColumnHelper();
-        return [
-            columnHelper.accessor("firstName", {
-                header: "First name",
-            }),
-            columnHelper.accessor("lastName", {
-                header: "Last name",
-            }),
-            columnHelper.accessor("email", {
-                header: "Email",
-            }),
-            columnHelper.accessor("job", {
-                header: "Job",
-            }),
-            columnHelper.accessor("location", {
-                header: "Location",
-            }),
-        ];
-    }, []);
+	const columns = useMemo(() => {
+		const columnHelper = createColumnHelper();
+		return [
+			columnHelper.accessor("firstName", {
+				enableColumnFilter: true,
+				header: "First name",
+			}),
+			columnHelper.accessor("lastName", {
+				enableColumnFilter: true,
+				header: "Last name",
+			}),
+			columnHelper.accessor("email", {
+				enableColumnFilter: true,
+				header: "Email",
+			}),
+			columnHelper.accessor("role", {
+				enableColumnFilter: true,
+				header: "Role",
+				cell: (info) => {
+					switch (info.getValue()) {
+						case ROLE.Admin: {
+							return "Admin";
+						}
+						case ROLE.Manager: {
+							return "Manager";
+						}
+						case ROLE.User: {
+							return "User";
+						}
+					}
+				},
+				filter: {
+					type: "select",
+					options: [
+						{ label: "Admin", value: ROLE.Admin },
+						{ label: "Manager", value: ROLE.Manager },
+						{ label: "User", value: ROLE.User },
+					],
+					renderOption: (r) => r.label,
+					valuePropName: "value",
+				},
+			}),
+			columnHelper.accessor("jobs", {
+				enableColumnFilter: true,
+				enableSorting: false,
+				header: "Jobs",
+				cell: (info) => {
+					const value = info.getValue()?.map(renderSetting).join(", ");
+					return (
+						<span
+							className="inline-block max-w-[300px] truncate"
+							title={value}
+						>
+							{value}
+						</span>
+					);
+				},
+				filter: {
+					type: "resource-select",
+					url: "/jobs",
+					renderOption: renderSetting,
+				},
+			}),
+			columnHelper.accessor("locations", {
+				enableColumnFilter: true,
+				enableSorting: false,
+				header: "Locations",
+				cell: (info) => {
+					const value = info.getValue()?.map(renderSetting).join(", ");
+					return (
+						<span
+							className="inline-block max-w-[300px] truncate"
+							title={value}
+						>
+							{value}
+						</span>
+					);
+				},
+				filter: {
+					type: "resource-select",
+					url: "/locations",
+					renderOption: renderSetting,
+				},
+			}),
+			columnHelper.group({
+				enableHiding: false,
+				id: "actions",
+				cell: (info) => {
+					const { original } = info.row;
+					return (
+						<div className="flex space-x-2">
+							<PencilIcon
+								className="cursor-pointer"
+								height={16}
+								onClick={() => open(original)}
+							/>
+
+							<TrashIcon
+								className="cursor-pointer"
+								height={16}
+								onClick={() => remove(original.id)}
+							/>
+						</div>
+					);
+				},
+			}),
+		];
+	}, []);
 
 	const [state, onStateChange] = useTableState();
 	const params = useTableStateQueryParams(state);
-    const { data, isLoading, mutate } = useSWR({ url: "/user", params });
+	console.log(state.columnFilters);
+	const { data, isLoading, mutate } = useSWR({
+		url: "/user",
+		params,
+	});
 	const table = useTable({
 		data,
 		columns,
@@ -93,15 +188,15 @@ function Users() {
 		return create
 	}, [selected, create, update]);
 
-    return (
-        <div>
-            <Header title="Users">
-                <Button onClick={() => open()}>
-                    + Add
-                </Button>
-            </Header>
+	return (
+		<div>
+			<Header title="Users">
+				<Button onClick={() => open()}>
+					+ Add
+				</Button>
+			</Header>
 
-            <Table table={table} />
+			<Table table={table} />
 
 			<Form
 				visible={visible}
@@ -111,8 +206,8 @@ function Users() {
 			/>
 
 			<RemoveModal onConfirm={onConfirmRemove} />
-        </div>
-    );
+		</div>
+	);
 }
 
 export default Users;

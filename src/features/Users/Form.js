@@ -3,7 +3,7 @@ import { renderSetting } from "../../utils/helpers/settings";
 import * as Yup from "yup";
 import { ROLE } from "../../utils/helpers/user";
 import { useUser } from "../../utils/hooks/useUser";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import Drawer from "../../components/Drawer";
 
 const validationSchema = Yup.object().shape({
@@ -11,10 +11,12 @@ const validationSchema = Yup.object().shape({
     lastName: Yup.string().required('Required'),
     email: Yup.string().email().required('Required'),
     password: Yup.string().required('Required'),
-    role: Yup.object().required('Required'),
+    role: Yup.number().required('Required'),
+    jobs: Yup.array(Yup.number()),
+    locations: Yup.array(Yup.number()),
 });
 
-function UserForm({ visible, close, selected, onSubmit: _onSubmit }) {
+function UserForm({ visible, close, selected, onSubmit }) {
     const user = useUser();
 
     const config = useMemo(() => {
@@ -71,19 +73,24 @@ function UserForm({ visible, close, selected, onSubmit: _onSubmit }) {
                 type: "select",
                 options: roles,
                 renderOption: (r) => r.label,
+                valuePropName: "value",
             },
         ];
     }, [user]);
 
-    const onSubmit = useCallback((values, ...args) => {
-        const data = {
-            ...values,
-            jobs: values.jobs.map(({ id }) => id),
-            locations: values.locations.map(({ id }) => id),
-            role: values.role.value,
+    const initialValues = useMemo(() => {
+        return {
+            firstName: selected?.firstName || "",
+            middleName: selected?.middleName || "",
+            lastName: selected?.lastName || "",
+            password: "",
+            jobs: selected?.jobs?.map((j) => j.id) || [],
+            locations: selected?.locations?.map((l) => l.id) || [],
+            role: selected?.role !== undefined
+                ? selected.role
+                : null,
         };
-        _onSubmit(data, ...args);
-    }, [_onSubmit]);
+    }, [selected]);
 
     const title = selected ? "Edit user" : "Add user";
     return (
@@ -92,17 +99,10 @@ function UserForm({ visible, close, selected, onSubmit: _onSubmit }) {
                 <div className="mx-auto max-w-2xl">
                     <DynamicForm
                         config={config}
-                        initialValues={selected || {
-                            firstName: "",
-                            middleName: "",
-                            lastName: "",
-                            password: "",
-                            jobs: [],
-                            locations: [],
-                            role: null,
-                        }}
+                        initialValues={initialValues}
                         onSubmit={onSubmit}
                         validationSchema={validationSchema}
+                        close={close}
                     />
                 </div>
             </div>

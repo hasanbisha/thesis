@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import Select from "../Select";
 
-function ResourceSelect({ url, value, onChange, renderOption, multiple }) {
+function ResourceSelect({ url, value, onChange, renderOption, multiple, valuePropName }) {
     const { data, isLoading } = useSWR({ url });
 
     return (
@@ -12,6 +12,7 @@ function ResourceSelect({ url, value, onChange, renderOption, multiple }) {
             onChange={onChange}
             renderOption={renderOption}
             multiple={multiple}
+            valuePropName={valuePropName}
         />
     )
 }

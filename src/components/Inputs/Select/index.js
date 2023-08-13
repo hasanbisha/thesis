@@ -1,10 +1,35 @@
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Loading from '../../Loaders/Loading';
 import clsx from 'clsx';
+import { isNil } from 'lodash';
 
-export default function Select({ value, onChange, renderOption, options, loading, multiple }) {
+export default function Select({ value, onChange, renderOption, options, valuePropName = "id", loading, multiple }) {
+    const map = useMemo(() => {
+        if (!options) {
+            return {};
+        }
+        return options?.reduce((total, item) => {
+            total[item[valuePropName]] = item;
+            return total;
+        }, {});
+    }, [options, valuePropName]);
+
+    const fullValue = useMemo(() => {
+        if (multiple) {
+            if (isNil(value)) {
+                return [];
+            }
+            return value.map((item) => map[item]);
+        } else {
+            if (isNil(value)) {
+                return null;
+            }
+            return map[value];
+        }
+    }, [value, multiple, map]);
+
     return (
         <Listbox value={value} onChange={onChange} multiple={multiple}>
             {({ open }) => (
@@ -13,9 +38,11 @@ export default function Select({ value, onChange, renderOption, options, loading
                         <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6 h-9">
                             <span className="flex items-center">
                                 <span className="block truncate">
-                                    {multiple
-                                        ? value.map((item) => renderOption(item)).join(", ")
-                                        : value && renderOption(value)}
+                                    {loading
+                                        ? "Loading..."
+                                        : multiple
+                                            ? fullValue?.map((item) => renderOption(item)).join(", ")
+                                            : fullValue && renderOption(fullValue)}
                                 </span>
                             </span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -50,7 +77,7 @@ export default function Select({ value, onChange, renderOption, options, loading
                                                     'relative cursor-default select-none py-2 pl-3 pr-9'
                                                 )
                                             }
-                                            value={item}
+                                            value={item[valuePropName]}
                                         >
                                             {({ selected, active }) => (
                                                 <>
