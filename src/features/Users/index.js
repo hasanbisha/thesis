@@ -103,6 +103,27 @@ function Users() {
 					renderOption: renderSetting,
 				},
 			}),
+			columnHelper.accessor("projects", {
+				enableColumnFilter: true,
+				enableSorting: false,
+				header: "Projects",
+				cell: (info) => {
+					const value = info.getValue()?.map(renderSetting).join(", ");
+					return (
+						<span
+							className="inline-block max-w-[300px] truncate"
+							title={value}
+						>
+							{value}
+						</span>
+					);
+				},
+				filter: {
+					type: "resource-select",
+					url: "/projects",
+					renderOption: renderSetting,
+				},
+			}),
 			columnHelper.group({
 				enableHiding: false,
 				id: "actions",

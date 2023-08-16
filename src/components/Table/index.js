@@ -91,9 +91,9 @@ function Table({ table }) {
                         )}
                     </tbody>
                 </table>
-
-                <Pagination table={table} />
             </div>
+
+            <Pagination table={table} />
         </div>
     );
 }

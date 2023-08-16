@@ -6,16 +6,6 @@ import { useUser } from "../../utils/hooks/useUser";
 import { useMemo } from "react";
 import Drawer from "../../components/Drawer";
 
-const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
-    email: Yup.string().email().required('Required'),
-    password: Yup.string().required('Required'),
-    role: Yup.number().required('Required'),
-    jobs: Yup.array(Yup.number()),
-    locations: Yup.array(Yup.number()),
-});
-
 function UserForm({ visible, close, selected, onSubmit }) {
     const user = useUser();
 
@@ -68,6 +58,14 @@ function UserForm({ visible, close, selected, onSubmit }) {
                 multiple: true,
             },
             {
+                label: "Projects",
+                name: "projects",
+                type: "resource-select",
+                url: "/projects",
+                renderOption: renderSetting,
+                multiple: true,
+            },
+            {
                 label: "Role",
                 name: "role",
                 type: "select",
@@ -83,13 +81,31 @@ function UserForm({ visible, close, selected, onSubmit }) {
             firstName: selected?.firstName || "",
             middleName: selected?.middleName || "",
             lastName: selected?.lastName || "",
+            email: selected?.email || "",
             password: "",
             jobs: selected?.jobs?.map((j) => j.id) || [],
             locations: selected?.locations?.map((l) => l.id) || [],
+            projects: selected?.projects?.map((l) => l.id) || [],
             role: selected?.role !== undefined
                 ? selected.role
                 : null,
         };
+    }, [selected]);
+
+    const validationSchema = useMemo(() => {
+        const validations = {
+            firstName: Yup.string().required('Required'),
+            lastName: Yup.string().required('Required'),
+            email: Yup.string().email().required('Required'),
+            role: Yup.number().required('Required'),
+            jobs: Yup.array(Yup.number()),
+            locations: Yup.array(Yup.number()),
+            projects: Yup.array(Yup.number()),
+        }
+        if (!selected) {
+            validations.password = Yup.string().required('Required');
+        }
+        return Yup.object().shape(validations);
     }, [selected]);
 
     const title = selected ? "Edit user" : "Add user";
