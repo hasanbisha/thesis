@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { selectionColumn } from "./commonColumns/selectionColumn";
 
@@ -41,6 +41,7 @@ export const useTable = ({
 	meta,
 	state: _state,
 	onStateChange,
+	rowIdProperty = "id",
 }) => {
 	const [data, totalItems] = _data || [emptyData, 0];
 
@@ -72,6 +73,13 @@ export const useTable = ({
 
 		pageCount,
 		getCoreRowModel: getCoreRowModel(),
+		getRowId: useCallback((row, _, parent) => {
+			const id = row[rowIdProperty];
+			if (parent) {
+				return [parent.id, id].join('.');
+			}
+			return id;
+		}, [rowIdProperty]),
 
 		state: _state,
 		onStateChange,

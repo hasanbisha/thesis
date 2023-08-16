@@ -4,6 +4,7 @@ import Header from "../../components/Layout/Header";
 const settings = [
 	{ name: "Jobs", url: "jobs" },
 	{ name: "Locations", url: "locations" },
+	{ name: "Projects", url: "projects" },
 ];
 
 function Settings() {
