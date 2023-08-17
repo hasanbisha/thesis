@@ -13,6 +13,7 @@ import Settings from "../../features/Settings";
 import Jobs from "../../features/Settings/Jobs";
 import Locations from "../../features/Settings/Locations";
 import Projects from "../../features/Settings/Project";
+import PaymentGroup from "../../features/Settings/PaymentGroup";
 
 const routes = [
 	{
@@ -45,6 +46,7 @@ const routes = [
 					{ path: "jobs", element: <Jobs /> },
 					{ path: "locations", element: <Locations /> },
 					{ path: "projects", element: <Projects /> },
+					{ path: "payment-groups", element: <PaymentGroup /> },
 				],
 			},
 		],

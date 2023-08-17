@@ -124,6 +124,30 @@ function Users() {
 					renderOption: renderSetting,
 				},
 			}),
+			columnHelper.accessor("paymentGroup", {
+				enableColumnFilter: true,
+				enableSorting: false,
+				header: "Payment group",
+				cell: (info) => {
+					let value = info.getValue();
+					if (value) {
+						value = renderSetting(value);
+					}
+					return (
+						<span
+							className="inline-block max-w-[300px] truncate"
+							title={value}
+						>
+							{value}
+						</span>
+					);
+				},
+				filter: {
+					type: "resource-select",
+					url: "/payment-groups",
+					renderOption: renderSetting,
+				},
+			}),
 			columnHelper.group({
 				enableHiding: false,
 				id: "actions",
@@ -147,11 +171,10 @@ function Users() {
 				},
 			}),
 		];
-	}, []);
+	}, [open, remove]);
 
 	const [state, onStateChange] = useTableState();
 	const params = useTableStateQueryParams(state);
-	console.log(state.columnFilters);
 	const { data, isLoading, mutate } = useSWR({
 		url: "/user",
 		params,

@@ -5,6 +5,7 @@ const settings = [
 	{ name: "Jobs", url: "jobs" },
 	{ name: "Locations", url: "locations" },
 	{ name: "Projects", url: "projects" },
+	{ name: "Payment groups", url: "payment-groups" },
 ];
 
 function Settings() {

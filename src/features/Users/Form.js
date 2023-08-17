@@ -66,6 +66,13 @@ function UserForm({ visible, close, selected, onSubmit }) {
                 multiple: true,
             },
             {
+                label: "Payment group",
+                name: "paymentGroup",
+                type: "resource-select",
+                url: "/payment-groups",
+                renderOption: renderSetting,
+            },
+            {
                 label: "Role",
                 name: "role",
                 type: "select",
@@ -86,6 +93,7 @@ function UserForm({ visible, close, selected, onSubmit }) {
             jobs: selected?.jobs?.map((j) => j.id) || [],
             locations: selected?.locations?.map((l) => l.id) || [],
             projects: selected?.projects?.map((l) => l.id) || [],
+            paymentGroup: selected?.paymentGroup?.id || null,
             role: selected?.role !== undefined
                 ? selected.role
                 : null,
@@ -101,6 +109,7 @@ function UserForm({ visible, close, selected, onSubmit }) {
             jobs: Yup.array(Yup.number()),
             locations: Yup.array(Yup.number()),
             projects: Yup.array(Yup.number()),
+            paymentGroup: Yup.number(),
         }
         if (!selected) {
             validations.password = Yup.string().required('Required');
