@@ -1,7 +1,9 @@
+import Home from "./Home";
+
 function TimeSheet() {
     return (
         <div>
-            TimeSheet
+            <Home />
         </div>
     );
 }

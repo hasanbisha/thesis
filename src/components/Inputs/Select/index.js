@@ -5,7 +5,7 @@ import Loading from '../../Loaders/Loading';
 import clsx from 'clsx';
 import { isNil } from 'lodash';
 
-export default function Select({ value, onChange, renderOption, options, valuePropName = "id", loading, multiple }) {
+export default function Select({ value, onChange, renderOption, options, valuePropName = "id", loading, multiple, disabled }) {
     const map = useMemo(() => {
         if (!options) {
             return {};
@@ -31,7 +31,7 @@ export default function Select({ value, onChange, renderOption, options, valuePr
     }, [value, multiple, map]);
 
     return (
-        <Listbox value={value} onChange={onChange} multiple={multiple}>
+        <Listbox value={value} onChange={onChange} multiple={multiple} disabled={disabled}>
             {({ open }) => (
                 <>
                     <div className="relative">

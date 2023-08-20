@@ -1,12 +1,12 @@
 import { flexRender } from "@tanstack/react-table";
-import Pagination from "./Pagination";
-import Loading from "../Loaders/Loading";
 import { ArrowUpIcon, ArrowDownIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import Filters from "../Filters";
-import ColumnToggle from "./ColumnToggle";
+import Loading from "../../../../components/Loaders/Loading";
+import Filters from "../../../../components/Filters";
+import ColumnToggle from "../../../../components/Table/ColumnToggle";
+import InfoTable from "./InfoTable";
 
-function Table({ table, pagination = true }) {
+function Table({ table }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
@@ -65,7 +65,7 @@ function Table({ table, pagination = true }) {
                                     </div>
                                 </td>
                             </tr>
-                        ) : totalItems === 0 ? (
+                        ) : totalItems === 0 || !totalItems ? (
                             <tr className="bg-white border-b hover:bg-gray-50">
                                 <td className="px-6 py-4" colSpan="999">
                                     <div className="flex justify-center">
@@ -75,25 +75,35 @@ function Table({ table, pagination = true }) {
                             </tr>
                         ) : (
                             table.getRowModel().rows.map((row) => {
+                                const isExpanded = row.getIsExpanded();
                                 return (
-                                    <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td key={cell.id} className="px-6 py-4">
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext(),
-                                                )}
-                                            </td>
-                                        ))}
-                                    </tr>
+                                    <>
+                                        <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
+                                            {row.getVisibleCells().map((cell) => (
+                                                <td key={cell.id} className="px-6 py-4">
+                                                    {flexRender(
+                                                        cell.column.columnDef.cell,
+                                                        cell.getContext(),
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
+
+
+                                        {isExpanded && (
+                                            <tr>
+                                                <td className="border" colSpan={1000}>
+                                                    <InfoTable />
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </>
                                 );
                             })
                         )}
                     </tbody>
                 </table>
             </div>
-
-            {pagination && <Pagination table={table} />}
         </div>
     );
 }

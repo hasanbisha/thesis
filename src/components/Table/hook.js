@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
+import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { selectionColumn } from "./commonColumns/selectionColumn";
 
 const emptyData = [];
@@ -34,15 +35,56 @@ export const useTableState = () => {
 	});
 }
 
+const expandColumn = {
+	id: "expanded",
+	header: ({ table }) => (
+		<button
+			onClick={table.getToggleAllRowsExpandedHandler()}
+		>
+			{table.getIsAllRowsExpanded()
+				? <ChevronUpIcon className="text-gray-800 h-5" />
+				: <ChevronDownIcon className="text-gray-800 h-5" />}
+		</button>
+	),
+	cell: ({ row }) => (
+		<div
+			style={{
+				paddingLeft: `${row.depth * 2}rem`,
+			}}
+		>
+			<button
+				onClick={row.getToggleExpandedHandler()}
+				style={{ cursor: 'pointer' }}
+			>
+				{row.getIsExpanded()
+					? <ChevronUpIcon className="text-gray-800 h-5" />
+					: <ChevronDownIcon className="text-gray-800 h-5" />}
+			</button>
+		</div>
+	),
+};
+
 export const useTable = ({
 	data: _data,
-	columns,
+	columns: baseColumns,
 	isLoading,
 	meta,
 	state: _state,
 	onStateChange,
 	rowIdProperty = "id",
+	...props
 }) => {
+	const columns = useMemo(() => {
+		if (props.enableRowSelection === false) {
+			return [expandColumn, ...baseColumns];
+		}
+		return [
+			expandColumn,
+			selectionColumn,
+			...baseColumns
+		];
+	}, [baseColumns, props.enableRowSelection]);
+
 	const [data, totalItems] = _data || [emptyData, 0];
 
 	const [pageCount, setPageCount] = useState(
@@ -66,9 +108,7 @@ export const useTable = ({
 			enableHiding: true,
 			filterType: "text",
 		}), []),
-		columns: useMemo(() => {
-			return [selectionColumn, ...columns];
-		}, [columns]),
+		columns,
 		data,
 
 		pageCount,
@@ -92,6 +132,7 @@ export const useTable = ({
 		enableFilters: true,
 		enableRowSelection: true,
 		enableHiding: true,
+		...props
 	});
 
 	const state = table.getState();

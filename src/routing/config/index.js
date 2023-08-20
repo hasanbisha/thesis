@@ -34,10 +34,10 @@ const routes = [
 			{
 				path: "time-sheet",
 				element: <TimeSheet />,
-				children: [
-					{ path: "my", element: <TimeSheetHome /> },
-					{ path: "team", element: <TimeSheetTeam /> },
-				],
+				// children: [
+				// 	{ path: "my", element: <TimeSheetHome /> },
+				// 	{ path: "team", element: <TimeSheetTeam /> },
+				// ],
 			},
 			{
 				path: "settings",

@@ -14,7 +14,7 @@ const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Users', href: '/users' },
   { name: 'Clock in', href: '/clock-in' },
-  { name: 'Timesheet', href: '/timesheet' },
+  { name: 'Timesheet', href: '/time-sheet' },
 ]
 
 const userNavigation = [
@@ -104,7 +104,7 @@ export default function Layout({ title, children }) {
           )}
         </Disclosure>
 
-        <main>
+        <main className="min-h-full min-h-100">
           {children}
         </main>
       </div>
