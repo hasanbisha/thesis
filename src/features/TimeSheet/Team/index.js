@@ -1,8 +1,11 @@
+import Content from "./Content";
+import { DateRangeProvider } from "../DateRange/context";
+
 function Team() {
     return (
-        <div>
-            Team
-        </div>
+        <DateRangeProvider>
+            <Content />
+        </DateRangeProvider>
     );
 }
 

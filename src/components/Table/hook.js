@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
-import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { selectionColumn } from "./commonColumns/selectionColumn";
+import { expandColumn } from "./commonColumns/expandColumn";
 
 const emptyData = [];
 
@@ -35,35 +35,6 @@ export const useTableState = () => {
 	});
 }
 
-const expandColumn = {
-	id: "expanded",
-	header: ({ table }) => (
-		<button
-			onClick={table.getToggleAllRowsExpandedHandler()}
-		>
-			{table.getIsAllRowsExpanded()
-				? <ChevronUpIcon className="text-gray-800 h-5" />
-				: <ChevronDownIcon className="text-gray-800 h-5" />}
-		</button>
-	),
-	cell: ({ row }) => (
-		<div
-			style={{
-				paddingLeft: `${row.depth * 2}rem`,
-			}}
-		>
-			<button
-				onClick={row.getToggleExpandedHandler()}
-				style={{ cursor: 'pointer' }}
-			>
-				{row.getIsExpanded()
-					? <ChevronUpIcon className="text-gray-800 h-5" />
-					: <ChevronDownIcon className="text-gray-800 h-5" />}
-			</button>
-		</div>
-	),
-};
-
 export const useTable = ({
 	data: _data,
 	columns: baseColumns,
@@ -75,15 +46,20 @@ export const useTable = ({
 	...props
 }) => {
 	const columns = useMemo(() => {
-		if (props.enableRowSelection === false) {
+		if (props.enableExpanding && !props.enableRowSelection) {
 			return [expandColumn, ...baseColumns];
+		} else if (!props.enableExpanding && props.enableRowSelection) {
+			return [selectionColumn, ...baseColumns]
+		} else if (props.enableExpanding && props.enableRowSelection) {
+			return [
+				expandColumn,
+				selectionColumn,
+				...baseColumns
+			];
+		} else {
+			return baseColumns
 		}
-		return [
-			expandColumn,
-			selectionColumn,
-			...baseColumns
-		];
-	}, [baseColumns, props.enableRowSelection]);
+	}, [baseColumns, props.enableRowSelection, props.enableExpanding]);
 
 	const [data, totalItems] = _data || [emptyData, 0];
 

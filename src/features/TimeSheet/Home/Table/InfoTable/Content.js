@@ -1,22 +1,14 @@
 import { flexRender } from "@tanstack/react-table";
-import { ArrowUpIcon, ArrowDownIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import Loading from "../../../../components/Loaders/Loading";
-import Filters from "../../../../components/Filters";
-import ColumnToggle from "../../../../components/Table/ColumnToggle";
-import InfoTable from "./InfoTable";
+import ColumnToggle from "../../../../../components/Table/ColumnToggle";
+import Loading from "../../../../../components/Loaders/Loading";
 
-
-function Table({ table, hasFilters }) {
+function Content({ table }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
         <div className="shadow-md rounded-lg bg-white z-10">
-            <div className="flex justify-between items-start py-2 px-4">
-                {hasFilters
-                    ? <Filters table={table} />
-                    : <div />}
-
+            <div className="flex justify-end py-2 px-4">
                 <ColumnToggle table={table} />
             </div>
 
@@ -26,15 +18,11 @@ function Table({ table, hasFilters }) {
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => {
-                                    const canSort = header.column.getCanSort();
                                     const className = clsx(
                                         "px-6 py-3",
                                         header.column.getCanSort() && 'cursor-pointer select-none',
                                     );
-                                    const sortDirection = header.column.getIsSorted();
-                                    const SortIcon = sortDirection
-                                        ? sortDirection === "desc" ? ArrowDownIcon : ArrowUpIcon
-                                        : ArrowsUpDownIcon;
+
                                     return (
                                         <th
                                             key={header.id}
@@ -48,8 +36,6 @@ function Table({ table, hasFilters }) {
                                                         header.column.columnDef.header,
                                                         header.getContext()
                                                     )}
-
-                                                    {canSort && <SortIcon height={14} />}
                                                 </div>
                                             )}
                                         </th>
@@ -78,29 +64,17 @@ function Table({ table, hasFilters }) {
                             </tr>
                         ) : (
                             table.getRowModel().rows.map((row) => {
-                                const isExpanded = row.getIsExpanded();
                                 return (
-                                    <>
-                                        <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
-                                            {row.getVisibleCells().map((cell) => (
-                                                <td key={cell.id} className="px-6 py-4">
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext(),
-                                                    )}
-                                                </td>
-                                            ))}
-                                        </tr>
-
-
-                                        {isExpanded && (
-                                            <tr>
-                                                <td className="border" colSpan={1000}>
-                                                    <InfoTable data={row.original.values} />
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </>
+                                    <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
+                                        {row.getVisibleCells().map((cell) => (
+                                            <td key={cell.id} className="px-6 py-4">
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext(),
+                                                )}
+                                            </td>
+                                        ))}
+                                    </tr>
                                 );
                             })
                         )}
@@ -111,4 +85,4 @@ function Table({ table, hasFilters }) {
     );
 }
 
-export default Table;
+export default Content;

@@ -18,10 +18,6 @@ export const useTableStateQueryParams = (state) => {
 
 export const useTableState = () => {
     return useState({
-        pagination: {
-            pageIndex: 0,
-            pageSize: 10,
-        },
         columnFilters: [{}],
         sorting: [],
     });

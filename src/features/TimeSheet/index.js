@@ -1,9 +1,9 @@
-import Home from "./Home";
+import Team from "./Team";
 
 function TimeSheet() {
     return (
         <div>
-            <Home />
+            <Team />
         </div>
     );
 }

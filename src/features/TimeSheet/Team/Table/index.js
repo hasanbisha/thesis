@@ -4,18 +4,15 @@ import clsx from "clsx";
 import Loading from "../../../../components/Loaders/Loading";
 import Filters from "../../../../components/Filters";
 import ColumnToggle from "../../../../components/Table/ColumnToggle";
-import InfoTable from "./InfoTable";
+import DateTable from "./DateTable";
 
-
-function Table({ table, hasFilters }) {
+function Table({ table }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
         <div className="shadow-md rounded-lg bg-white z-10">
             <div className="flex justify-between items-start py-2 px-4">
-                {hasFilters
-                    ? <Filters table={table} />
-                    : <div />}
+                <Filters table={table} />
 
                 <ColumnToggle table={table} />
             </div>
@@ -79,6 +76,7 @@ function Table({ table, hasFilters }) {
                         ) : (
                             table.getRowModel().rows.map((row) => {
                                 const isExpanded = row.getIsExpanded();
+                                console.log({ a: row.state })
                                 return (
                                     <>
                                         <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
@@ -94,9 +92,10 @@ function Table({ table, hasFilters }) {
 
 
                                         {isExpanded && (
+                                            ///TODO: team state
                                             <tr>
                                                 <td className="border" colSpan={1000}>
-                                                    <InfoTable data={row.original.values} />
+                                                    <DateTable userId={row.original.id} state={{}} />
                                                 </td>
                                             </tr>
                                         )}

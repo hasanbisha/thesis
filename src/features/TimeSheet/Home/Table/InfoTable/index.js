@@ -1,16 +1,24 @@
-import Table from "../../../../../components/Table";
+import { useMemo } from "react";
 import { useTable } from "../../../../../components/Table/hook";
+import Content from "./Content";
+import { useColumns } from "./useColumns";
 
-const data = [], columns = [];
+function InfoTable({ data }) {
+    const columns = useColumns();
 
-function InfoTable() {
+    const tableData = useMemo(() => [
+        data,
+        data?.length
+    ], [data]);
 
     const table = useTable({
-        data,
+        data: tableData,
         columns,
-        enableRowSelection: false
-    })
-    return <Table table={table} pagination={false} />
+        enableRowSelection: false,
+        manualRowSelection: false,
+    });
+
+    return <Content table={table} />
 }
 
 export default InfoTable;
