@@ -8,17 +8,16 @@ export const useColumns = () => {
 
         return [
             columnHelper.accessor("name", {
-                enableColumnFilter: true,
                 header: "Name",
+                enableSorting: false,
                 cell: ({ row: { original } }) => original
                     && original?.firstName + " " + original?.lastName
             }),
             columnHelper.accessor("email", {
-                enableColumnFilter: true,
+                enableSorting: false,
                 header: "Email",
             }),
             columnHelper.accessor("paymentGroup", {
-                enableColumnFilter: true,
                 enableSorting: false,
                 header: "Payment group",
                 cell: (info) => {
@@ -34,11 +33,6 @@ export const useColumns = () => {
                             {value}
                         </span>
                     );
-                },
-                filter: {
-                    type: "resource-select",
-                    url: "/payment-groups",
-                    renderOption: renderSetting,
                 },
             }),
         ]

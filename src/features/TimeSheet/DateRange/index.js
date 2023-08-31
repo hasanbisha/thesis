@@ -21,6 +21,7 @@ function DateRange() {
             type="date"
             value={endDate}
             onChange={onEndDateChange}
+            min={startDate}
         />
     </div>
 }

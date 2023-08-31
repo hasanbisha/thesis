@@ -6,6 +6,7 @@ import Table from "./Table";
 import Overall from "./Overall";
 import DateRange from "../DateRange";
 import { useColumns } from "./Table/useColumns";
+import { useFiltersColumns } from "./Table/useFiltersColumns";
 import { useTableState, useTableStateQueryParams } from "../hooks";
 import { useTable } from "../../../components/Table/hook";
 import { useVisible } from "../../../utils/hooks/useVisible";
@@ -25,6 +26,7 @@ function Content() {
     }, [visible, open, close]);
 
     const columns = useColumns();
+    const filtersColumns = useFiltersColumns();
     const [state, onStateChange] = useTableState();
     const params = useTableStateQueryParams(state);
 
@@ -85,10 +87,14 @@ function Content() {
 
             {visible && (
                 <div className="p-5 bg-white">
-                    <Overall />
+                    <Overall params={params} />
                 </div>
             )}
-            <Table table={table} hasFilters={true} />
+            <Table
+                table={table}
+                hasFilters={true}
+                filtersColumns={filtersColumns}
+            />
         </div>
     );
 }

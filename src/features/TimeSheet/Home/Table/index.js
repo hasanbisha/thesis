@@ -2,19 +2,19 @@ import { flexRender } from "@tanstack/react-table";
 import { ArrowUpIcon, ArrowDownIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import Loading from "../../../../components/Loaders/Loading";
-import Filters from "../../../../components/Filters";
 import ColumnToggle from "../../../../components/Table/ColumnToggle";
+import Filters from "../../Filters";
 import InfoTable from "./InfoTable";
 
 
-function Table({ table, hasFilters }) {
+function Table({ table, hasFilters, filtersColumns }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
         <div className="shadow-md rounded-lg bg-white z-10">
             <div className="flex justify-between items-start py-2 px-4">
                 {hasFilters
-                    ? <Filters table={table} />
+                    ? <Filters table={table} columns={filtersColumns} />
                     : <div />}
 
                 <ColumnToggle table={table} />

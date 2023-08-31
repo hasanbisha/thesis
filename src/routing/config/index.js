@@ -14,6 +14,7 @@ import Jobs from "../../features/Settings/Jobs";
 import Locations from "../../features/Settings/Locations";
 import Projects from "../../features/Settings/Project";
 import PaymentGroup from "../../features/Settings/PaymentGroup";
+import Profile from "../../features/Profile";
 
 const routes = [
 	{
@@ -49,6 +50,10 @@ const routes = [
 					{ path: "payment-groups", element: <PaymentGroup /> },
 				],
 			},
+			{
+				path: "profile",
+				element: <Profile />
+			}
 		],
 	},
 	{

@@ -15,8 +15,7 @@ export const DateRangeProvider = ({ children }) => {
 
     const onStartDateChange = useCallback((e) => {
         setStartDate(e.target.value);
-        setEndDate(moment(e.target.value).add(6, "days").format("yyyy-MM-DD"));
-    }, [setStartDate, setEndDate]);
+    }, [setStartDate]);
 
     const onEndDateChange = useCallback((e) => {
         setEndDate(e.target.value);

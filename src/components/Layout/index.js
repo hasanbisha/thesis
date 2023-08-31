@@ -1,14 +1,8 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import clsx from 'clsx'
-import { Link } from 'react-router-dom'
-
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+import { Fragment } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
+import { useUser } from "../../utils/hooks/useUser";
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
@@ -24,6 +18,8 @@ const userNavigation = [
 ]
 
 export default function Layout({ title, children }) {
+  const user = useUser();
+
   return (
     <>
       <div className="min-h-full">
@@ -63,9 +59,11 @@ export default function Layout({ title, children }) {
                     <div className="ml-4 flex items-center md:ml-6">
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <Menu.Button className="bg-white relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="absolute -inset-1.5" />
-                            <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                            <span className="mb-0 text-sm font-bold p-3">
+                              {`${user?.firstName.charAt(0)} ${user?.lastName.charAt(0)}`}
+                            </span>
                           </Menu.Button>
                         </div>
                         <Transition

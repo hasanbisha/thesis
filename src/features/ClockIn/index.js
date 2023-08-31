@@ -132,8 +132,8 @@ function ClockIn() {
                     <Loading />
                 </div>
             ) : (
-                <>
-                    <div className="w-full bg-white flex justify-between items-center p-7 border-b">
+                <div className="bg-white" style={{ height: "93vh" }}>
+                    <div className="w-full flex justify-between items-center p-7 border-b">
                         <div className="font-bold">
                             <h2 className="mb-0">
                                 {greeting},{" "}
@@ -152,7 +152,7 @@ function ClockIn() {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-around bg-white p-24">
+                    <div className="flex items-center justify-around p-24">
                         <div>
                             <div className="flex flex-col items-center justify-center">
                                 <span className="text-gray-500 text-lg mb-2">
@@ -233,7 +233,7 @@ function ClockIn() {
                             ))}
                         </div>
                     </div>
-                </>
+                </ div>
             ));
 }
 

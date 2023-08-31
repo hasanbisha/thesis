@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import useSWR from "swr";
 import moment from "moment";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid"
@@ -9,10 +9,12 @@ import { useVisible } from "../../../utils/hooks/useVisible";
 import { useTable } from "../../../components/Table/hook";
 import { useTableState, useTableStateQueryParams } from "../hooks";
 import { useColumns } from "./Table/useColumns";
+import { useFiltersColumns } from "./Table/useFiltersColumns";
 import { DateRangeContext } from "../DateRange/context";
 import "./style.css";
 
 function Content() {
+    const filtersColumns = useFiltersColumns();
     const { startDate, endDate } = useContext(DateRangeContext);
 
     const { open, visible, close } = useVisible();
@@ -72,11 +74,11 @@ function Content() {
 
             {visible && (
                 <div className="p-5 bg-white">
-                    <Overall />
+                    <Overall params={params} />
                 </div>
             )}
 
-            <Table table={table} />
+            <Table table={table} filtersColumns={filtersColumns} />
         </div>
     );
 }

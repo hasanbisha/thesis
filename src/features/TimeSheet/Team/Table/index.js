@@ -2,17 +2,17 @@ import { flexRender } from "@tanstack/react-table";
 import { ArrowUpIcon, ArrowDownIcon, ArrowsUpDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import Loading from "../../../../components/Loaders/Loading";
-import Filters from "../../../../components/Filters";
+import Filters from "../../Filters";
 import ColumnToggle from "../../../../components/Table/ColumnToggle";
 import DateTable from "./DateTable";
 
-function Table({ table }) {
+function Table({ table, filtersColumns }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
         <div className="shadow-md rounded-lg bg-white z-10">
             <div className="flex justify-between items-start py-2 px-4">
-                <Filters table={table} />
+                <Filters table={table} columns={filtersColumns} />
 
                 <ColumnToggle table={table} />
             </div>
@@ -76,7 +76,6 @@ function Table({ table }) {
                         ) : (
                             table.getRowModel().rows.map((row) => {
                                 const isExpanded = row.getIsExpanded();
-                                console.log({ a: row.state })
                                 return (
                                     <>
                                         <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
@@ -92,10 +91,9 @@ function Table({ table }) {
 
 
                                         {isExpanded && (
-                                            ///TODO: team state
                                             <tr>
                                                 <td className="border" colSpan={1000}>
-                                                    <DateTable userId={row.original.id} state={{}} />
+                                                    <DateTable userId={row.original.id} state={table.getState()} />
                                                 </td>
                                             </tr>
                                         )}

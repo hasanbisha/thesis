@@ -1,13 +1,19 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import useSWR from "swr";
+import { DateRangeContext } from "../DateRange/context";
 import { firstToUpper } from "../../../utils/helpers/string";
+import { renderDurationAsFormat } from "../../../utils/helpers/date";
+import { currencyFormatter } from "../../../utils/helpers/currencyFormatter";
+import moment from "moment";
 
-function Overall({ from, to }) {
+function Overall({ params }) {
+    const { startDate, endDate } = useContext(DateRangeContext);
     const { data } = useSWR({
         url: "/timesheets/team/overall",
         params: {
-            from: 1692403200,
-            to: 1692489599
+            ...params,
+            from: moment(startDate).unix(),
+            to: moment(endDate).unix()
         }
     });
 
@@ -45,21 +51,21 @@ function Overall({ from, to }) {
             <tr>
                 {types?.map((type) =>
                     <td className="border border-indigo-600 text-center py-2 px-3">
-                        {data[type]?.duration}
+                        {renderDurationAsFormat(data[type]?.duration, "HH:mm:ss")}
                     </td>
                 )}
                 <td className="border border-indigo-600 text-center py-2 px-3">
-                    {duration}
+                    {renderDurationAsFormat(duration, "HH:mm:ss")}
                 </td>
             </tr>
             <tr>
                 {types?.map((type) =>
                     <td className="border border-indigo-600 text-center py-2 px-3">
-                        {data[type]?.total}
+                        {currencyFormatter(data[type]?.total, "USD")}
                     </td>
                 )}
                 <td className="border border-indigo-600 text-center py-2 px-3">
-                    {total}
+                    {currencyFormatter(total, "USD")}
                 </td>
             </tr>
         </tbody>
