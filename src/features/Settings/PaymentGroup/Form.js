@@ -10,7 +10,7 @@ const validationSchema = Yup.object().shape({
 		.max(24, 'Overtime threshold should be smaller than 24')
 		.required('Required'),
 	overtimeMultiplier: Yup.number()
-		.min(1, 'Overtime threshold should be bigger than 1')
+		.min(1, 'Overtime multiplier should be bigger than 1')
 		.required('Required'),
 });
 

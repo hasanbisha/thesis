@@ -99,7 +99,6 @@ export default function Filters({ table }) {
 	}, [columnFilters]);
 
 	const onSubmit = useCallback((values) => {
-		console.log(values.filters);
 		table.setColumnFilters(values.filters);
 	}, [table.setColumnFilters]);
 

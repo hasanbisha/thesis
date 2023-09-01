@@ -6,7 +6,7 @@ import clsx from "clsx";
 import Filters from "../Filters";
 import ColumnToggle from "./ColumnToggle";
 
-function Table({ table, pagination = true }) {
+function Table({ table }) {
     const { isLoading, totalItems } = table.options.meta;
 
     return (
@@ -93,7 +93,7 @@ function Table({ table, pagination = true }) {
                 </table>
             </div>
 
-            {pagination && <Pagination table={table} />}
+            <Pagination table={table} />
         </div>
     );
 }
