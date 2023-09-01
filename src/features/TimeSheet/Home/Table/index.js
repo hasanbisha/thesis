@@ -5,6 +5,7 @@ import Loading from "../../../../components/Loaders/Loading";
 import ColumnToggle from "../../../../components/Table/ColumnToggle";
 import Filters from "../../Filters";
 import InfoTable from "./InfoTable";
+import { Fragment } from "react";
 
 
 function Table({ table, hasFilters, filtersColumns }) {
@@ -80,7 +81,7 @@ function Table({ table, hasFilters, filtersColumns }) {
                             table.getRowModel().rows.map((row) => {
                                 const isExpanded = row.getIsExpanded();
                                 return (
-                                    <>
+                                    <Fragment key={row.id}>
                                         <tr key={row.id} className="bg-white border-b hover:bg-gray-50">
                                             {row.getVisibleCells().map((cell) => (
                                                 <td key={cell.id} className="px-6 py-4">
@@ -100,7 +101,7 @@ function Table({ table, hasFilters, filtersColumns }) {
                                                 </td>
                                             </tr>
                                         )}
-                                    </>
+                                    </Fragment>
                                 );
                             })
                         )}

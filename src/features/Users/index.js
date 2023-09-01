@@ -240,16 +240,18 @@ function Users() {
 				</Button>
 			</Header>
 
-			<Table table={table} />
+			<div className="layout-content">
+				<Table table={table} />
 
-			<Form
-				visible={visible}
-				close={close}
-				selected={selected}
-				onSubmit={onSubmit}
-			/>
+				<Form
+					visible={visible}
+					close={close}
+					selected={selected}
+					onSubmit={onSubmit}
+				/>
 
-			<RemoveModal onConfirm={onConfirmRemove} />
+				<RemoveModal onConfirm={onConfirmRemove} />
+			</div>
 		</div>
 	);
 }

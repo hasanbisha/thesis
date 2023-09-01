@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useContext } from "react";
 import useSWR from "swr";
 import moment from "moment";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid"
@@ -12,20 +12,13 @@ import { useColumns } from "./Table/useColumns";
 import { useFiltersColumns } from "./Table/useFiltersColumns";
 import { DateRangeContext } from "../DateRange/context";
 import "./style.css";
+import Header from "../../../components/Layout/Header";
 
 function Content() {
     const filtersColumns = useFiltersColumns();
     const { startDate, endDate } = useContext(DateRangeContext);
 
-    const { open, visible, close } = useVisible();
-
-    const openAnalytics = useCallback(() => {
-        if (visible) {
-            close();
-        } else {
-            open();
-        }
-    }, [visible, open, close]);
+    const { toggle, visible } = useVisible();
 
     const columns = useColumns();
     const [state, onStateChange] = useTableState();
@@ -53,24 +46,26 @@ function Content() {
     });
 
     return (
-        <div className="">
-            <div className="flex bg-white items-center p-5">
-                <button
-                    type="button"
-                    className="flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={openAnalytics}
-                >
-                    Analytics
+        <div>
+            <Header title="Team timesheet">
+                <div className="flex items-center">
+                    <button
+                        type="button"
+                        className="flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={toggle}
+                    >
+                        Analytics
 
-                    {visible
-                        ? <ChevronUpIcon className="h-5" />
-                        : <ChevronDownIcon className="h-5" />}
-                </button>
+                        {visible
+                            ? <ChevronUpIcon className="h-5" />
+                            : <ChevronDownIcon className="h-5" />}
+                    </button>
 
-                <div className="mx-5">
-                    <DateRange />
+                    <div className="ml-5">
+                        <DateRange />
+                    </div>
                 </div>
-            </div>
+            </Header>
 
             {visible && (
                 <div className="p-5 bg-white">
@@ -78,7 +73,9 @@ function Content() {
                 </div>
             )}
 
-            <Table table={table} filtersColumns={filtersColumns} />
+            <div className="layout-content">
+                <Table table={table} filtersColumns={filtersColumns} />
+            </div>
         </div>
     );
 }

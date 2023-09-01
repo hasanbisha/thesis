@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { renderSetting } from "../../../../utils/helpers/settings";
+import { renderDurationAsFormat } from "../../../../utils/helpers/date";
 
 export const useColumns = () => {
     return useMemo(() => {
@@ -34,6 +35,15 @@ export const useColumns = () => {
                         </span>
                     );
                 },
+            }),
+            ...["regular", "break", "overtime"].map((type) => {
+                return columnHelper.accessor(`overview.${type}.duration`, {
+                    header: type,
+                    cell: (info) => {
+                        const value = info.getValue() || 0;
+                        return renderDurationAsFormat(value, "HH:mm:ss")
+                    }
+                });
             }),
         ]
     }, [])

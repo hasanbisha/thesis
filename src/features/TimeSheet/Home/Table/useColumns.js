@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { renderDurationAsFormat } from "../../../../utils/helpers/date";
 import { currencyFormatter } from "../../../../utils/helpers/currencyFormatter";
+import { renderSetting } from "../../../../utils/helpers/settings";
 import { createColumnHelper } from "@tanstack/react-table";
 
 export const useColumns = () => {
@@ -11,6 +12,33 @@ export const useColumns = () => {
             header: "Date",
             enableSorting: false,
             enableHiding: false,
+        }),
+        columnsHelper.accessor("job", {
+            header: "Job",
+            enableSorting: false,
+            enableHiding: false,
+            cell: (info) => {
+                const value = info.getValue();
+                return value && renderSetting(value);
+            },
+        }),
+        columnsHelper.accessor("location", {
+            header: "Location",
+            enableSorting: false,
+            enableHiding: false,
+            cell: (info) => {
+                const value = info.getValue();
+                return value && renderSetting(value);
+            },
+        }),
+        columnsHelper.accessor("project", {
+            header: "Project",
+            enableSorting: false,
+            enableHiding: false,
+            cell: (info) => {
+                const value = info.getValue();
+                return value && renderSetting(value);
+            },
         }),
         columnsHelper.accessor("duration", {
             header: "Shifts Duration",
@@ -30,7 +58,7 @@ export const useColumns = () => {
                     return total += current?.total
                 }, 0);
 
-                return duration > 0
+                return duration !== undefined
                     ? currencyFormatter(duration, "USD")
                     : "--"
             }

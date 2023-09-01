@@ -24,19 +24,19 @@ export const useColumns = () => {
                 && moment.unix(row.original.end).format("HH:mm:ss A")
         }),
         columnHelper.accessor("type", {
-            header: "Payment group",
+            header: "Type",
             enableSorting: false,
             cell: ({ row }) => row?.original?.type
                 && firstToUpper(row?.original?.type)
         }),
         columnHelper.accessor("duration", {
             header: "Duration",
-            cell: ({ row }) => row?.original?.duration
+            cell: ({ row }) => row?.original?.duration !== undefined
                 && renderDurationAsFormat(row?.original?.duration, "HH:mm:ss")
         }),
         columnHelper.accessor("payment", {
             header: "Payment",
-            cell: ({ row }) => row?.original?.total
+            cell: ({ row }) => row?.original?.total !== undefined
                 ? currencyFormatter(row?.original?.total, "USD")
                 : "--"
         })

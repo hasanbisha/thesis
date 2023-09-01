@@ -21,18 +21,30 @@ function DateTable({ userId, state }) {
     });
 
     const tableData = useMemo(() => {
+        const dates = Object.keys(data || {});
+        const formattedData = dates?.map((date) => ({
+            date,
+            job: data[date][0].job,
+            location: data[date][0]?.location,
+            project: data[date][0]?.project,
+            values: data[date]
+        }));
+
         return [
-            Object?.keys(data || []),
-            Object.keys(data || [])?.length]
-    }, [data])
+            formattedData,
+            formattedData?.length
+        ]
+    }, [data]);
 
     const table = useTable({
         data: tableData,
         columns,
         isLoading,
-        state,
         enableRowSelection: false,
         manualRowSelection: false,
+        enableExpanding: true,
+        manualExpanding: true,
+        getRowCanExpand: () => true,
     });
 
     return <Table table={table} hasFilters={false} />;

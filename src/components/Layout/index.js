@@ -3,12 +3,14 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useUser } from "../../utils/hooks/useUser";
+import "./style.css"
 
 const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Users', href: '/users' },
   { name: 'Clock in', href: '/clock-in' },
   { name: 'Timesheet', href: '/time-sheet' },
+  { name: 'Team timesheet', href: '/time-sheet/team' },
 ]
 
 const userNavigation = [
@@ -17,27 +19,20 @@ const userNavigation = [
   { name: 'Sign out', href: '/logout' },
 ]
 
-export default function Layout({ title, children }) {
+export default function Layout({ children }) {
   const user = useUser();
 
   return (
     <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
-          {({ open }) => (
+          {() => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                      />
-                    </div>
                     <div className="block">
-                      <div className="ml-10 flex items-baseline space-x-4">
+                      <div className="flex items-baseline space-x-4">
                         {navigation.map((item) => (
                           <Link
                             key={item.name}

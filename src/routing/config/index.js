@@ -6,7 +6,6 @@ import LogOut from "../../features/LogOut";
 import Home from "../../features/Home";
 import Users from "../../features/Users";
 import ClockIn from "../../features/ClockIn";
-import TimeSheet from "../../features/TimeSheet";
 import TimeSheetHome from "../../features/TimeSheet/Home";
 import TimeSheetTeam from "../../features/TimeSheet/Team";
 import Settings from "../../features/Settings";
@@ -34,11 +33,10 @@ const routes = [
 			{ path: "clock-in", element: <ClockIn /> },
 			{
 				path: "time-sheet",
-				element: <TimeSheet />,
-				// children: [
-				// 	{ path: "my", element: <TimeSheetHome /> },
-				// 	{ path: "team", element: <TimeSheetTeam /> },
-				// ],
+				children: [
+					{ index: true, element: <TimeSheetHome /> },
+					{ path: "team", element: <TimeSheetTeam /> },
+				],
 			},
 			{
 				path: "settings",

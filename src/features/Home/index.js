@@ -1,7 +1,9 @@
+import Header from "../../components/Layout/Header";
+
 function Home() {
     return (
         <div>
-            Home
+            <Header title="Dashboard" />
         </div>
     );
 }

@@ -9,6 +9,7 @@ import { useColumns } from "./Table/useColumns";
 import { useFiltersColumns } from "./Table/useFiltersColumns";
 import { useTableState, useTableStateQueryParams } from "../hooks";
 import { useTable } from "../../../components/Table/hook";
+import Header from "../../../components/Layout/Header";
 import { useVisible } from "../../../utils/hooks/useVisible";
 import { DateRangeContext } from "../DateRange/context";
 
@@ -43,6 +44,9 @@ function Content() {
         const dates = Object.keys(data || {});
         const formattedData = dates?.map((date) => ({
             date,
+            job: data[date][0].job,
+            location: data[date][0]?.location,
+            project: data[date][0]?.project,
             values: data[date]
         }));
 
@@ -67,34 +71,39 @@ function Content() {
 
     return (
         <div className="">
-            <div className="flex bg-white items-center p-5">
-                <button
-                    type="button"
-                    className="flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={openAnalytics}
-                >
-                    Analytics
+            <Header title="Timesheet">
+                <div className="flex items-center">
+                    <button
+                        type="button"
+                        className="flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        onClick={openAnalytics}
+                    >
+                        Analytics
 
-                    {visible
-                        ? <ChevronUpIcon className="h-5" />
-                        : <ChevronDownIcon className="h-5" />}
-                </button>
+                        {visible
+                            ? <ChevronUpIcon className="h-5" />
+                            : <ChevronDownIcon className="h-5" />}
+                    </button>
 
-                <div className="mx-5">
-                    <DateRange />
+                    <div className="ml-5">
+                        <DateRange />
+                    </div>
                 </div>
-            </div>
+            </Header>
 
             {visible && (
                 <div className="p-5 bg-white">
                     <Overall params={params} />
                 </div>
             )}
-            <Table
-                table={table}
-                hasFilters={true}
-                filtersColumns={filtersColumns}
-            />
+
+            <div className="layout-content">
+                <Table
+                    table={table}
+                    hasFilters={true}
+                    filtersColumns={filtersColumns}
+                />
+            </div>
         </div>
     );
 }
