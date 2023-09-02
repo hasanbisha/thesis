@@ -92,8 +92,10 @@ function Content() {
             </Header>
 
             {visible && (
-                <div className="p-5 bg-white">
-                    <Overall params={params} />
+                <div className="bg-white">
+                    <div className="layout-content">
+                        <Overall params={params} />
+                    </div>
                 </div>
             )}
 
